@@ -1,0 +1,13 @@
+version: '3'
+
+services:
+    testrun:
+        build: .
+        command: go run main.go
+        volumes:
+            - ./src:/go/src/app
+        working_dir: /go/src/app
+        ports:
+            - "3000-3050:3000"
+        environment: 
+            PORT: 3000
