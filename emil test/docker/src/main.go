@@ -25,8 +25,6 @@ func main() {
 	http.ListenAndServe(":"+PORT, nil)
 }
 
-
-
 func waitForInput() {
 	//var test string
 }
