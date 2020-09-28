@@ -7,8 +7,6 @@ import (
 const IDLength = 256
 const IDByteLength = IDLength / 8
 
-var MyId = newId()
-
 type ID [IDByteLength]byte
 
 type randRead func([]byte) (int, error)
