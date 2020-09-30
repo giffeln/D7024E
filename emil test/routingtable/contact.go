@@ -2,11 +2,12 @@ package routingtable
 
 import(
 	"sort"
+	"../node"
 )
 
 type contact struct {
-	nodeId node.ID
+	nodeId *kademliaId
 	address  string
-	distance distance
+	distance *kademliaId
 }
 
