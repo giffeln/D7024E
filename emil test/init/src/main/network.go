@@ -16,11 +16,18 @@ import (
 	"time"
 )
 
+const MESSAGE_SIZE int = 2048
+
+type Contact struct {
+	ID       byte
+	Address  string
+	Distance byte
+  }
+
 type Message struct {
-	CMD  string
-	Data string
-	IP   string
-	ID   byte
+	CMD     string
+	Data    string
+	Contact Contact
 }
 
 /*
@@ -64,7 +71,7 @@ func client(ip string, port string, message Message) {
 		return
 	}
 
-	buffer := make([]byte, 1024)
+	buffer := make([]byte, MESSAGE_SIZE)
 	n, _, err := c.ReadFromUDP(buffer)
 	if err != nil {
 		fmt.Println(err)
@@ -90,7 +97,7 @@ func server(port string) {
 	}
 
 	defer c.Close()
-	tmp := make([]byte, 1024)
+	tmp := make([]byte, MESSAGE_SIZE)
 	rand.Seed(time.Now().Unix())
 
 	for {
