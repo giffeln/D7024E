@@ -2,4 +2,4 @@
 
 amount=$1
 
-docker-compose up -d --scale testrun=$1
+docker-compose up --scale testrun=$1
