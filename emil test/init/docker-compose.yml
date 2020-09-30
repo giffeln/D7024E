@@ -3,7 +3,7 @@ version: '3'
 services:
     testrun:
         build: .
-        command: go run main/main.go
+        command: go run main/main.go main/network.go
         volumes:
             - ./src:/go/src/app
         working_dir: /go/src/app
