@@ -13,13 +13,14 @@ import (
 	"math/rand"
 	"net"
 	"strconv"
-	"strings"
 	"time"
 )
 
 type Message struct {
-	ID   string
+	CMD  string
 	Data string
+	IP   string
+	ID   byte
 }
 
 /*
@@ -89,26 +90,35 @@ func server(port string) {
 	}
 
 	defer c.Close()
-	buffer := make([]byte, 1024)
-	tmp := make([]byte, 500)
+	tmp := make([]byte, 1024)
 	rand.Seed(time.Now().Unix())
 
 	for {
-		n, addr, err := c.ReadFromUDP(buffer)
-		input := string(buffer[0:n])
-		inputs := strings.SplitN(input, " ", 2)
+		_, addr, err := c.ReadFromUDP(tmp)
+		tmpbuff := bytes.NewBuffer(tmp)
+		tmpstruct := new(Message)
 
-		switch inputs[0] {
-		case "PING":
-			return
-		case "LOOKUP":
-			return
-		}
+		// creates a decoder object
+		gobobj := gob.NewDecoder(tmpbuff)
+		// decodes buffer and unmarshals it into a Message struct
+		gobobj.Decode(tmpstruct)
 
-		if strings.TrimSpace(string(buffer[0:n])) == "STOP" {
-			fmt.Println("Exiting UDP Server")
-			return
-		}
+		fmt.Println(tmpstruct.CMD + " : " + tmpstruct.Data)
+		/*
+			switch tmpstruct.ID {
+			case "PING":
+				return
+			case "LOOKUP":
+				return
+			}
+		*/
+
+		/*
+			if strings.TrimSpace(string(buffer[0:n])) == "STOP" {
+				fmt.Println("Exiting UDP Server")
+				return
+			}
+		*/
 
 		data := []byte(strconv.Itoa(random(1, 1001)))
 		fmt.Printf("data: %s\n", string(data))
