@@ -7,27 +7,50 @@ import (
 )
 
 const MAIN_HOSTNAME = "init_testrun_1"
+const PORT = "3002"
+
+var ME Contact
 
 func main() {
-	go inits()
-	server("3002")
+	inits()
+
+	time.Sleep(5 * time.Second)
+
+	if ME.Address != getMainIP() {
+		fmt.Println("Im not main")
+		sendInit()
+	} else {
+		fmt.Println("Im main")
+	}
+	server(PORT)
 }
 
+/*
+	Getting the local IP and checking if its the same IP
+	as MAIN_HOSTNAME which will be the node that all connect
+	to.
+	Then if it isn't the main it will ping the main to make it
+	self known.
+
+*/
 func inits() {
-	time.Sleep(3 * time.Second)
+	// Makes sure everything is up before trying to do stuff
+	localIPs, _ := net.InterfaceAddrs()
+
+	// The IP comes with a /16 that needs to be removed
+	ME.Address = localIPs[1].String()[:(len(localIPs[1].String()) - 3)]
+	fmt.Println("Im " + ME.Address)
+}
+
+func getMainIP() string {
 	ips, err := net.LookupIP(MAIN_HOSTNAME)
 	if err != nil {
-		return
+		return "error"
 	}
-	localIPs, _ := net.InterfaceAddrs()
-	localIP := localIPs[1].String()[:(len(localIPs[1].String()) - 3)]
-	time.Sleep(3 * time.Second)
+	return ips[0].String()
+}
 
-	if ips[0].String() == localIP {
-		fmt.Println("Yah")
-		return
-	}
-	fmt.Println("Nah")
+func sendInit() {
 	time.Sleep(5 * time.Second)
-	client(MAIN_HOSTNAME, "3002", Message{CMD: "PING"})
+	go client(MAIN_HOSTNAME, PORT, Message{CMD: "PING", Contact: ME})
 }

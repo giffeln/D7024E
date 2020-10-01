@@ -12,7 +12,6 @@ import (
 	"fmt"
 	"math/rand"
 	"net"
-	"strconv"
 	"time"
 )
 
@@ -22,7 +21,7 @@ type Contact struct {
 	ID       byte
 	Address  string
 	Distance byte
-  }
+}
 
 type Message struct {
 	CMD     string
@@ -50,7 +49,7 @@ func client(ip string, port string, message Message) {
 		return
 	}
 
-	fmt.Printf("The UDP server is %s\n", c.RemoteAddr().String())
+	//fmt.Printf("The UDP server is %s\n", c.RemoteAddr().String())
 	defer c.Close()
 
 	/*reader := bufio.NewReader(os.Stdin)
@@ -101,7 +100,8 @@ func server(port string) {
 	rand.Seed(time.Now().Unix())
 
 	for {
-		_, addr, err := c.ReadFromUDP(tmp)
+		//_, addr, err := c.ReadFromUDP(tmp)
+		c.ReadFromUDP(tmp)
 		tmpbuff := bytes.NewBuffer(tmp)
 		tmpstruct := new(Message)
 
@@ -110,30 +110,9 @@ func server(port string) {
 		// decodes buffer and unmarshals it into a Message struct
 		gobobj.Decode(tmpstruct)
 
-		fmt.Println(tmpstruct.CMD + " : " + tmpstruct.Data)
-		/*
-			switch tmpstruct.ID {
-			case "PING":
-				return
-			case "LOOKUP":
-				return
-			}
-		*/
+		msg := *tmpstruct
 
-		/*
-			if strings.TrimSpace(string(buffer[0:n])) == "STOP" {
-				fmt.Println("Exiting UDP Server")
-				return
-			}
-		*/
-
-		data := []byte(strconv.Itoa(random(1, 1001)))
-		fmt.Printf("data: %s\n", string(data))
-		_, err = c.WriteToUDP(data, addr)
-		if err != nil {
-			fmt.Println(err)
-			return
-		}
+		go handleInc(msg)
 	}
 
 }
