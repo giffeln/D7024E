@@ -3,29 +3,30 @@ package main
 import (
 	"encoding/hex"
 	"math/rand"
+	"time"
 )
 
 const idLength = 20
 
 type kademliaId [idLength]byte
 
-func newKadId(data string) *kademliaId {
+func newKadId(data string) kademliaId {
 	decoded, _ := hex.DecodeString(data)
 	newKadId := kademliaId{}
 	for i := 0; i < len(decoded); i++ {
 		newKadId[i] = decoded[i]
 	}
 
-	return &newKadId
+	return newKadId
 }
 
-func randomKadId() *kademliaId {
-	newKadId := kademliaId{}
+func randomKadId() kademliaId {
+	newRandKadId := kademliaId{}
 	for i := 0; i < idLength; i++ {
-		newKadId[i] = uint8(rand.Intn(256))
+		newRandKadId[i] = uint8(rand.Int63n(time.Now().UnixNano()))
 	}
 
-	return &newKadId
+	return newRandKadId
 }
 
 func (firstId kademliaId) smaller(secondId kademliaId) bool {
@@ -46,12 +47,12 @@ func (firstId kademliaId) equals(secondId kademliaId) bool {
 	return true
 }
 
-func (host kademliaId) calcDist(target kademliaId) *kademliaId {
+func (host kademliaId) calcDist(target kademliaId) kademliaId {
 	distance := kademliaId{}
 	for i := 0; i < idLength; i++ {
 		distance[i] = host[i] ^ target[i]
 	}
-	return &distance
+	return distance
 }
 
 func (kademliaId kademliaId) toString() string {

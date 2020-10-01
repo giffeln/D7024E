@@ -3,7 +3,7 @@ version: '3'
 services:
     testrun:
         build: .
-        command: go run bucket.go contact.go handler.go kademliaID.go lookup.go main.go network.go table.go
+        command: go run handler.go kademliaID.go lookup.go main.go network.go
         volumes:
             - ./src/main:/go/src/app
         working_dir: /go/src/app

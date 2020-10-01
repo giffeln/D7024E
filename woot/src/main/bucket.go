@@ -6,13 +6,13 @@ import (
 )
 
 type bucket struct {
-	contactList *list.List
-	mutex       *sync.Mutex
+	contactList list.List
+	mutex       sync.Mutex
 }
 
-func newBucket() *bucket {
-	bucket := &bucket{}
+func newBucket() bucket {
+	bucket := bucket{}
 	bucket.contactList = list.New()
-	bucket.mutex = &sync.Mutex{}
+	bucket.mutex = sync.Mutex{}
 	return bucket
 }

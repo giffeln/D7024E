@@ -17,11 +17,11 @@ import (
 
 const MESSAGE_SIZE int = 2048
 
-/*type Contact struct {
-	ID       byte
+type Contact struct {
+	ID       kademliaId
 	Address  string
-	Distance byte
-}*/
+	Distance [20]byte
+}
 
 type Message struct {
 	CMD     string
