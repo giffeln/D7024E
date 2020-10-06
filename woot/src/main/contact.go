@@ -27,8 +27,8 @@ func (firstContact contact) smaller(secondContact contact) bool {
 	return firstContact.distance.smaller(secondContact.distance)
 }
 
-func (contact contact) toString() string {
-	return fmt.Sprintf(contact("%s", "%s"), contact.nodeId, contact.address)
+func (cont contact) toString() string {
+	return fmt.Sprintf(cont("%s", "%s"), cont.nodeId, cont.address)
 }
 
 func (candidates candidates) add(addCandidates []contact) {
