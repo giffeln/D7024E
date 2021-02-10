@@ -18,7 +18,11 @@ import (
 const MESSAGE_SIZE int = 2048
 
 type Contact struct {
+<<<<<<< HEAD
 	ID       [20]byte
+=======
+	ID       kademliaId
+>>>>>>> 2f75bfdf7c6cadc27ddabf75b4713e13688dfbb3
 	Address  string
 	Distance [20]byte
 }

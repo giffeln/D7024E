@@ -15,7 +15,7 @@ type candidates struct {
 	contacts []contact
 }
 
-func makeContact(id *kademliaId, address String) contact {
+func makeContact(id *kademliaId, address string) contact {
 	return contact{id, address, nil}
 }
 

@@ -6,23 +6,22 @@ import (
 	"time"
 )
 
-const MAIN_HOSTNAME = "init_testrun_1"
+const MAIN_HOSTNAME = "woot_testrun_1"
 const PORT = "3002"
 
-var ME contact
+var ME Contact
 
 func main() {
 	inits()
-	/*
-		time.Sleep(5 * time.Second)
+	time.Sleep(5 * time.Second)
 
-		if ME.Address != getMainIP() {
-			fmt.Println("Im not main")
-			sendInit()
-		} else {
-			fmt.Println("Im main")
-		}
-		server(PORT)*/
+	if ME.Address != getMainIP() {
+		fmt.Println("Im not main")
+		sendInit()
+	} else {
+		fmt.Println("Im main")
+	}
+	server(PORT)
 }
 
 /*
@@ -38,10 +37,9 @@ func inits() {
 	localIPs, _ := net.InterfaceAddrs()
 
 	// The IP comes with a /16 that needs to be removed
-	ME.ID = randomKadId()
-	ME.Distance = ME.ID.calcDist(randomKadId())
 	ME.Address = localIPs[1].String()[:(len(localIPs[1].String()) - 3)]
-	fmt.Println("IP " + ME.Address + "\nID " + ME.ID + "\nDist " + ME.Distance)
+	fmt.Println("IP " + ME.Address)
+	ME.ID = randomKadId()
 }
 
 func getMainIP() string {

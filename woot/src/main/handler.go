@@ -1,6 +1,9 @@
 package main
 
-import "fmt"
+import (
+	"encoding/hex"
+	"fmt"
+)
 
 /*
 	Handles incoming messages
@@ -15,7 +18,8 @@ import "fmt"
 func handleInc(msg Message) {
 	cmd := msg.CMD
 	remIP := msg.Contact.Address
-
+	remID := hex.EncodeToString(msg.Contact.ID[:])
+	fmt.Println("IP: " + remIP + "\nID: " + remID)
 	switch cmd {
 	case "PING":
 		fmt.Println("PING recieved from " + remIP)
